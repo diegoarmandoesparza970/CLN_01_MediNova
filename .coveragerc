@@ -1,0 +1,13 @@
+[run]
+source = src
+branch = True
+omit =
+    src/infrastructure/seed.py
+
+[report]
+show_missing = True
+exclude_lines =
+    pragma: no cover
+    @abstractmethod
+    raise NotImplementedError
+    \.\.\.
