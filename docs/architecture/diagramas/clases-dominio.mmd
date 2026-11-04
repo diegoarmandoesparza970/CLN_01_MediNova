@@ -1,0 +1,72 @@
+classDiagram
+  direction TB
+  class AgendaMedica {
+    +medico_id
+    +fecha
+    +version
+    +abrir_jornada(j)
+    +agendar(cita, limite, ahora)
+    +cancelar(id, usuario, motivo)
+    +modificar(id, franja, sucursal)
+    +registrar_llegada(id, ahora, tolerancia)
+    +marcar_no_show(id, usuario, ahora)
+    +cerrar_consulta(id, cierre)
+    +cancelar_jornada(sucursal, ...)
+    +registrar_autorizacion(id, numero)
+  }
+  class Cita {
+    +id
+    +expediente
+    +estado: EstadoCita
+    +franja: FranjaHoraria
+    +aplicar(disparador)
+    +bloquea_franja
+  }
+  class Jornada {
+    +sucursal_id
+    +franja
+    +cancelada
+  }
+  class MaquinaDeEstadosDeCita {
+    +siguiente(estado, disparador)
+    +permitidos(estado)
+    +a_mermaid()
+  }
+  class Especificacion~T~ {
+    <<abstract>>
+    +es_satisfecha_por(c)
+    +and / or / not
+  }
+  class HorarioLibre
+  class SobrecupoDisponible
+  class FranjaDentroDeJornadaVigente
+  class PacienteSinCitaSolapada
+  class Paciente {
+    +expediente
+    +contacto
+    +actualizar_datos()
+  }
+  class Reagendador {
+    +reagendar(origen, destino, ...)
+  }
+  class PoliticaDeNoShow {
+    <<interface>>
+    +evaluar(total)
+  }
+  class PoliticaDeAutorizacion {
+    <<interface>>
+    +requiere(aseguradora)
+  }
+  class AlertaPorUmbralDeNoShows
+  class AutorizacionPorCatalogo
+  AgendaMedica "1" *-- "*" Cita
+  AgendaMedica "1" *-- "*" Jornada
+  Cita ..> MaquinaDeEstadosDeCita : usa
+  AgendaMedica ..> Especificacion : compone
+  HorarioLibre --|> Especificacion
+  SobrecupoDisponible --|> Especificacion
+  FranjaDentroDeJornadaVigente --|> Especificacion
+  PacienteSinCitaSolapada --|> Especificacion
+  Reagendador ..> AgendaMedica
+  AlertaPorUmbralDeNoShows ..|> PoliticaDeNoShow
+  AutorizacionPorCatalogo ..|> PoliticaDeAutorizacion

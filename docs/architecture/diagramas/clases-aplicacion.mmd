@@ -1,0 +1,68 @@
+classDiagram
+  direction TB
+  class AgendamientoService {
+    +agendar_cita()
+    +cancelar_cita()
+    +modificar_cita()
+    +registrar_autorizacion()
+  }
+  class AtencionService {
+    +registrar_llegada()
+    +marcar_no_show()
+    +cerrar_consulta()
+  }
+  class JornadaService {
+    +abrir_jornada()
+    +cancelar_jornada()
+    +reagendar_cita_afectada()
+  }
+  class ConfirmacionService
+  class PacienteService
+  class ConsultaService
+  class UnitOfWork {
+    <<abstract>>
+    +confirmar()
+    +agendas
+    +pacientes
+    +auditoria
+  }
+  class UnitOfWorkSql
+  class AgendaMedicaRepository {
+    <<interface>>
+  }
+  class AgendaMedicaSql
+  class Notificador {
+    <<interface>>
+    +enviar(m)
+  }
+  class NotificadorPorCanal
+  class Reloj {
+    <<interface>>
+    +ahora()
+  }
+  class RelojDelSistema
+  class RelojFijo
+  class LectorDeConsultas {
+    <<interface>>
+  }
+  class LectorSql
+  class Reagendador
+  class PoliticaDeNoShow
+  class PoliticaDeAutorizacion
+  AtencionService ..> AgendamientoService
+  AgendamientoService ..> UnitOfWork
+  AgendamientoService ..> PoliticaDeAutorizacion
+  AgendamientoService ..> PoliticaDeNoShow
+  AgendamientoService ..> Reloj
+  JornadaService ..> Reagendador
+  JornadaService ..> UnitOfWork
+  ConfirmacionService ..> Notificador
+  ConsultaService ..> LectorDeConsultas
+  UnitOfWork o-- AgendaMedicaRepository
+  UnitOfWork ..> Notificador
+  UnitOfWorkSql --|> UnitOfWork
+  AgendaMedicaSql ..|> AgendaMedicaRepository
+  NotificadorPorCanal ..|> Notificador
+  RelojDelSistema ..|> Reloj
+  RelojFijo ..|> Reloj
+  LectorSql ..|> LectorDeConsultas

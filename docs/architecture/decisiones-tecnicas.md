@@ -48,7 +48,7 @@ Arquitectura en capas con la **regla de dependencia hacia el dominio** (ADR-001,
 - **Despliegue.** Imagen Docker multi-etapa (`app`, `tests`), `docker-compose.yml` con PostgreSQL + app + pruebas, `render.yaml` y job de despliegue en GitHub Actions; Swagger UI se sirve desde la propia app.
 
 ## 5. Diagramas
-- [Mapa de dominio](diagramas/mapa-dominio.png) · [Clases](diagramas/clases.png) · [Estados de la cita](diagramas/estados-cita.png)
+- [Mapa de dominio](diagramas/mapa-dominio.png) · [Clases: dominio](diagramas/clases-dominio.png) · [Clases: aplicación e infraestructura](diagramas/clases-aplicacion.png) · [Estados de la cita](diagramas/estados-cita.png)
 - [Secuencia: agendar](diagramas/secuencia-agendar.png) · [Secuencia: llegada](diagramas/secuencia-llegada.png) · [Secuencia: jornada cancelada](diagramas/secuencia-jornada.png)
 - [Modelo relacional](diagramas/er.png)
 Los diagramas están en Mermaid (`*.mmd`) y el de estados se **genera desde la tabla de transiciones del código** (`MaquinaDeEstadosDeCita.a_mermaid()`), por lo que no puede divergir de él.
