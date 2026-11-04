@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph PAC["Paciente"]
+    s1(("Solicita cancelar<br/>o cambiar la cita"))
+  end
+  subgraph REC["Recepcionista"]
+    a1["Buscar la cita<br/>(expediente / teléfono)"]
+    g1{"¿Cancelar o<br/>modificar?"}
+    a2["Capturar motivo<br/>[US-17, US-19]"]
+    a3["Elegir nueva franja<br/>y sucursal"]
+    g2{"¿Horario<br/>disponible?"}
+    a4["Informar horario<br/>no disponible"]
+    e1(("Fin: cita<br/>sin cambios"))
+  end
+  subgraph SIS["Sistema (dominio + UoW)"]
+    b1["Cita CANCELADA<br/>horario liberado"]
+    b2["Cita modificada<br/>(misma agenda)"]
+    b3["Registrar auditoría:<br/>usuario, fecha, hora, motivo<br/>(misma transacción)"]
+    b4["Notificar por canal<br/>de origen (tras commit)"]
+    e2(("Fin: cambio<br/>con evidencia"))
+  end
+  s1 --> a1 --> g1
+  g1 -->|Cancelar| a2 --> b1 --> b3
+  g1 -->|Modificar| a3 --> g2
+  g2 -->|No| a4 --> e1
+  g2 -->|Sí| a2
+  a2 -.->|"si modifica"| b2 --> b3
+  b3 --> b4 --> e2

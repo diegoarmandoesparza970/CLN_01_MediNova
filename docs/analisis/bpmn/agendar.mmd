@@ -1,0 +1,34 @@
+flowchart LR
+  subgraph PAC["Paciente"]
+    s1(("Solicita cita<br/>tel / WhatsApp / recepción"))
+  end
+  subgraph REC["Recepcionista"]
+    a1["Registrar canal de origen<br/>[US-18]"]
+    g1{"¿Paciente<br/>nuevo?"}
+    a2["Registrar paciente<br/>expediente único [US-02]"]
+    a3["Buscar por teléfono<br/>o expediente [US-03]"]
+    a4["Buscar disponibilidad en<br/>las 3 sucursales [US-01, US-16]"]
+    a5["Capturar cita: médico, sucursal,<br/>franja, motivo, aseguradora [US-04]"]
+    a6["Registrar número de<br/>autorización [US-12]"]
+    a7["Informar: horario no<br/>disponible / ofrecer otro"]
+  end
+  subgraph SIS["Sistema (AgendaMedica)"]
+    g2{"¿Franja libre<br/>o sobrecupo<br/>dentro del límite?<br/>[US-05, US-10]"}
+    g3{"¿Aseguradora exige<br/>autorización sin número?"}
+    b1["Cita AGENDADA<br/>horario bloqueado"]
+    b2["Cita PENDIENTE_AUTORIZACION<br/>(franja bloqueada)"]
+    b3["Confirmar por el canal<br/>de origen (tras commit)"]
+    e1(("Fin: cita<br/>creada"))
+    e2(("Fin: rechazada"))
+  end
+  subgraph ASE["Aseguradora"]
+    c1["Otorga autorización<br/>(proceso externo)"]
+  end
+  s1 --> a1 --> g1
+  g1 -->|Sí| a2 --> a4
+  g1 -->|No| a3 --> a4
+  a4 --> a5 --> g2
+  g2 -->|No| a7 --> e2
+  g2 -->|Sí| g3
+  g3 -->|No| b1 --> b3 --> e1
+  g3 -->|Sí| b2 --> c1 --> a6 --> b1

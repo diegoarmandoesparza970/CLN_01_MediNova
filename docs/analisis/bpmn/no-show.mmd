@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph REC["Recepcionista"]
+    s1(("Pasó la hora<br/>de la cita"))
+    g1{"¿El paciente<br/>llegó?"}
+    a1["Marcar cita como no-show<br/>[US-20, CU-05]"]
+    e1(("Fin: atención<br/>normal"))
+  end
+  subgraph SIS["Sistema"]
+    r1{"¿Cita AGENDADA<br/>y hora ya pasó?"}
+    b1["Estatus NO_SHOW"]
+    b2["Error:<br/>TransicionDeEstatusInvalida"]
+    b3["Historial del paciente<br/>+1 no-show [US-14]"]
+    g2{"¿Total ≥ umbral?"}
+    b4["Alerta a recepción<br/>(PoliticaDeNoShow)"]
+    e2(("Fin: no-show<br/>registrado"))
+  end
+  subgraph ADM["Personal administrativo"]
+    c1["Consultar historial<br/>y reportes [US-14, US-15]"]
+  end
+  s1 --> g1
+  g1 -->|Sí| e1
+  g1 -->|No| a1 --> r1
+  r1 -->|No| b2
+  r1 -->|Sí| b1 --> b3 --> g2
+  g2 -->|Sí| b4 --> e2
+  g2 -->|No| e2
+  b3 -.-> c1

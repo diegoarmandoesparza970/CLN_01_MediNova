@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph MED["Médico"]
+    s1(("Avisa que cancela<br/>su jornada"))
+  end
+  subgraph REC["Recepcionista"]
+    a1["Cancelar jornada<br/>(una sucursal o todas) [US-11]"]
+    a2["Consultar lista de afectados:<br/>contacto + estatus [US-11, US-23]"]
+    a3["Contactar al paciente<br/>(cita más próxima primero)"]
+    g1{"¿Acepta<br/>reagendar?"}
+    a4["Reagendar: elegir médico,<br/>fecha, franja y sucursal"]
+    a5["Cancelar la cita<br/>con motivo [US-17]"]
+  end
+  subgraph SIS["Sistema"]
+    b1["Jornada cancelada<br/>citas -> AFECTADA<br/>auditoría por cada cita"]
+    g2{"¿El destino<br/>tiene lugar?"}
+    b2["Cita nueva vinculada<br/>origen -> REAGENDADA"]
+    b3["Medir tiempo de<br/>reagendado [US-24]"]
+    e1(("Fin: reagendado"))
+    e2(("Fin: pendiente<br/>de reagendar"))
+  end
+  s1 --> a1 --> b1 --> a2 --> a3 --> g1
+  g1 -->|Sí| a4 --> g2
+  g2 -->|Sí| b2 --> b3 --> e1
+  g2 -->|No| a3
+  g1 -->|No| a5 --> e2

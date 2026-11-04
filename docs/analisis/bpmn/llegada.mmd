@@ -1,0 +1,34 @@
+flowchart LR
+  subgraph PAC["Paciente"]
+    s1(("Llega a la<br/>sucursal"))
+  end
+  subgraph REC["Recepcionista"]
+    a1["Registrar llegada y confirmar<br/>teléfono/aseguradora [US-07, US-22]"]
+    a2["Consultar al médico si<br/>puede atender [US-08]"]
+    g2{"¿El médico<br/>puede atender?"}
+    a3["Ofrecer reagendar<br/>cita vinculada [US-09]"]
+  end
+  subgraph SIS["Sistema (Cita: State Machine)"]
+    g1{"Retraso vs.<br/>tolerancia 15 min"}
+    b1["PRESENTE<br/>hora real registrada"]
+    b2["PRESENTE + alerta<br/>consultar al médico"]
+    b3["NO_ATENDIDA_POR_RETRASO"]
+    b4["REAGENDADA<br/>nueva cita vinculada"]
+    e3(("Fin: sin atender"))
+  end
+  subgraph MED["Médico (no usa el sistema)"]
+    m1["Atiende la consulta<br/>receta / estudios / nueva cita"]
+  end
+  subgraph REC2["Cierre (captura de recepción)"]
+    c1["Cerrar consulta [US-13]"]
+    e1(("Fin: ATENDIDA"))
+  end
+  s1 --> a1 --> g1
+  g1 -->|"≤ 0 min"| b1 --> m1 --> c1 --> e1
+  g1 -->|"1 a 15 min"| b2 --> a2 --> g2
+  g2 -->|Sí| m1
+  g2 -->|No| b3
+  g1 -->|"> 15 min"| b3
+  b3 --> a3
+  a3 -->|Acepta| b4
+  a3 -->|No acepta| e3

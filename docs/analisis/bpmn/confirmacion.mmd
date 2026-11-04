@@ -1,0 +1,29 @@
+flowchart LR
+  subgraph TMR["Evento: 1 día antes"]
+    t1(("Cita para<br/>mañana"))
+  end
+  subgraph SIS["Sistema"]
+    a1["Enviar recordatorio por el<br/>canal de origen [US-06, US-18]"]
+    a2["Registrar envío<br/>(Confirmacion: sin_respuesta)"]
+    g1{"¿Respuesta?"}
+    a3["Cita confirmada"]
+    a4["Cancelar cita:<br/>motivo 'rechazó confirmación'"]
+    g2{"¿Pasaron 24 h<br/>sin respuesta?"}
+    a5["Liberar horario<br/>usuario 'sistema' + auditoría [US-21]"]
+  end
+  subgraph REC["Recepcionista"]
+    r1["Registrar respuesta<br/>recibida"]
+    r2["Gestionar llamada<br/>(teléfono / recepción)"]
+  end
+  subgraph PAC["Paciente"]
+    p1(("Responde<br/>SI / NO"))
+  end
+  e1(("Fin"))
+  t1 --> a1 --> a2 --> g1
+  a1 -.->|"canal manual"| r2
+  p1 --> r1 --> g1
+  g1 -->|Confirmada| a3 --> e1
+  g1 -->|Rechazada| a4 --> e1
+  g1 -->|Sin respuesta| g2
+  g2 -->|No| g1
+  g2 -->|Sí| a5 --> e1
