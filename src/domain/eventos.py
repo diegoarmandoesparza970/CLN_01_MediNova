@@ -1,0 +1,46 @@
+"""Domain Events (informe, sección 3). Se publican tras confirmar la transacción,
+salvo los que alimentan la auditoría, que se procesan antes de confirmar (ADR-003)."""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any
+
+
+@dataclass(frozen=True)
+class Evento:
+    cita_id: str | None = None
+    usuario: str = "sistema"
+    motivo: str = ""
+    ocurrido_en: datetime | None = None
+    detalle: dict[str, Any] = field(default_factory=dict, compare=False)
+
+
+class CitaAgendada(Evento): ...
+class CitaCancelada(Evento): ...
+class CitaModificada(Evento): ...
+class ConfirmacionRegistrada(Evento): ...
+class AutorizacionRegistrada(Evento): ...
+class LlegadaRegistrada(Evento): ...
+class CitaNoAtendidaPorRetraso(Evento): ...
+class CitaMarcadaComoNoShow(Evento): ...
+class CitaAfectadaPorJornada(Evento): ...
+class JornadaCancelada(Evento): ...
+class CitaReagendada(Evento): ...
+class ConsultaCerrada(Evento): ...
+class PacienteRegistrado(Evento): ...
+class DatosDePacienteActualizados(Evento): ...
+
+# Eventos que deben dejar evidencia de auditoría (US-17)
+EVENTOS_AUDITABLES = (CitaCancelada, CitaModificada, CitaAfectadaPorJornada, CitaReagendada)
+
+
+@dataclass(frozen=True)
+class RegistroDeAuditoria:
+    """Entidad inmutable: solo se agrega (invariante del informe, sección 3)."""
+
+    cita_id: str
+    usuario: str
+    fecha: datetime
+    motivo: str
+    tipo: str
