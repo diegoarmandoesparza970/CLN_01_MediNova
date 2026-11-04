@@ -1,0 +1,61 @@
+# DB + App + Tests en un entorno reproducible.
+#   docker compose up --build -d db app         -> API en http://localhost:8000/docs
+#   docker compose --profile test run --rm tests -> suite con cobertura >= 80 % sobre PostgreSQL
+services:
+  db:
+    image: postgres:16-alpine
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - medinova_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      target: app
+    env_file: .env
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  tests:
+    profiles: ["test"]
+    build:
+      context: .
+      target: tests
+    env_file: .env
+    environment:
+      # Las pruebas usan una base aparte dentro del mismo PostgreSQL
+      TEST_DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}_test
+    depends_on:
+      db:
+        condition: service_healthy
+      test-db-init:
+        condition: service_completed_successfully
+
+  test-db-init:
+    profiles: ["test"]
+    image: postgres:16-alpine
+    env_file: .env
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["sh", "-c"]
+    command:
+      - psql -h db -U $${POSTGRES_USER} -d $${POSTGRES_DB} -tc "SELECT 1 FROM pg_database WHERE datname='$${POSTGRES_DB}_test'" | grep -q 1 || psql -h db -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c "CREATE DATABASE $${POSTGRES_DB}_test"
+
+volumes:
+  medinova_pgdata:

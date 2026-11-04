@@ -1,0 +1,79 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  calidad:
+    name: Lint + pruebas + cobertura >= 80 %
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: medinova
+          POSTGRES_PASSWORD: ci_password
+          POSTGRES_DB: medinova_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U medinova" --health-interval 5s
+          --health-timeout 3s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg2://medinova:ci_password@localhost:5432/medinova_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - name: Lint (ruff)
+        run: ruff check src tests scripts
+      - name: Pruebas unitarias y de integración (PostgreSQL) con cobertura
+        run: pytest --cov --cov-fail-under=80 --cov-report=xml --cov-report=term-missing:skip-covered
+      - name: Pruebas contra SQLite (sin servicios externos)
+        run: TEST_DATABASE_URL=sqlite:// pytest
+      - name: Verificar que docs/api/openapi.json esté al día
+        run: python -m scripts.exportar_openapi && git diff --exit-code docs/api/openapi.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+
+  docker:
+    name: Construir imagen y probar con Docker Compose
+    needs: calidad
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar .env desde .env.example
+        run: cp .env.example .env
+      - name: Levantar DB + App
+        run: docker compose up --build -d db app
+      - name: Esperar y probar /health y /docs
+        run: |
+          for i in $(seq 1 30); do curl -fsS http://localhost:8000/health && break || sleep 2; done
+          curl -fsS http://localhost:8000/openapi.json > /dev/null
+          curl -fsS http://localhost:8000/docs > /dev/null
+      - name: Suite completa dentro de Compose (PostgreSQL)
+        run: docker compose --profile test run --rm tests
+      - if: always()
+        run: docker compose down -v
+
+  deploy:
+    name: Despliegue (Render)
+    needs: docker
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar despliegue en Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "Secret RENDER_DEPLOY_HOOK_URL no configurado: se omite el despliegue"; exit 0
+          fi
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK_URL"

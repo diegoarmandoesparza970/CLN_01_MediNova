@@ -1,0 +1,25 @@
+# Blueprint de Render (https://render.com/docs/blueprint-spec): crea PostgreSQL + servicio web desde el repo.
+databases:
+  - name: medinova-db
+    plan: free
+    databaseName: medinova
+services:
+  - type: web
+    name: medinova-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerTarget: app
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: false          # el despliegue lo dispara el job "deploy" de GitHub Actions
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: medinova-db
+          property: connectionString
+      - key: APP_ENV
+        value: production
+      - key: SEED_DEMO
+        value: "true"
+      - key: ZONA_HORARIA
+        value: America/Monterrey
