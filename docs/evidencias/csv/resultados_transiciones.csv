@@ -1,0 +1,21 @@
+﻿caso_id,operacion_id,accion_sugerida,estado_inicial,resultado_alumno,evidencia
+CITA-S001,CITA-O001,completar,SOLICITADA,ATENDIDA,OperacionConfirmada + OperacionAtendida
+CITA-S002,CITA-O002,cancelar,SOLICITADA,CANCELADA,OperacionCancelada
+CITA-S003,CITA-O003,repetir_aprobacion,SOLICITADA,CONFIRMADA,OperacionConfirmada | EXCEPCION transicion_de_estatus_invalida
+CITA-S004,CITA-O004,saltar_estado,SOLICITADA,SOLICITADA,EXCEPCION transicion_de_estatus_invalida
+CITA-S005,CITA-O005,aprobar,SOLICITADA,CONFIRMADA,OperacionConfirmada
+CITA-S006,CITA-O006,completar,SOLICITADA,ATENDIDA,OperacionConfirmada + OperacionAtendida
+CITA-S007,CITA-O007,cancelar,SOLICITADA,CANCELADA,OperacionCancelada
+CITA-S008,CITA-O008,repetir_aprobacion,SOLICITADA,SOLICITADA,EXCEPCION precondicion_no_cumplida
+CITA-S009,CITA-O009,saltar_estado,SOLICITADA,SOLICITADA,EXCEPCION transicion_de_estatus_invalida
+CITA-S010,CITA-O010,aprobar,SOLICITADA,CONFIRMADA,OperacionConfirmada
+CITA-S011,CITA-O011,completar,SOLICITADA,ATENDIDA,OperacionConfirmada + OperacionAtendida
+CITA-S012,CITA-O012,cancelar,SOLICITADA,CANCELADA,OperacionCancelada
+CITA-S013,CITA-O013,repetir_aprobacion,SOLICITADA,SOLICITADA,EXCEPCION precondicion_no_cumplida
+CITA-S014,CITA-O014,saltar_estado,SOLICITADA,SOLICITADA,EXCEPCION transicion_de_estatus_invalida
+CITA-S015,CITA-O015,aprobar,SOLICITADA,CONFIRMADA,OperacionConfirmada
+CITA-S016,CITA-O016,completar,SOLICITADA,SOLICITADA,EXCEPCION precondicion_no_cumplida
+CITA-S017,CITA-O017,cancelar,SOLICITADA,CANCELADA,OperacionCancelada
+CITA-S018,CITA-O018,repetir_aprobacion,SOLICITADA,CONFIRMADA,OperacionConfirmada | EXCEPCION transicion_de_estatus_invalida
+CITA-S019,CITA-O019,saltar_estado,SOLICITADA,SOLICITADA,EXCEPCION transicion_de_estatus_invalida
+CITA-S020,CITA-O020,aprobar,SOLICITADA,CONFIRMADA,OperacionConfirmada

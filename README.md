@@ -61,7 +61,9 @@ TEST_DATABASE_URL=postgresql+psycopg2://u:p@localhost:5432/medinova_test pytest 
 ruff check src tests scripts
 python -m scripts.trazabilidad --escribir                          # matriz requisito -> prueba
 ```
-110 pruebas (unitarias de dominio + integración sobre BD real + API), **cobertura 99 %**. Las pruebas T1–T8 del informe de la Unidad 3 están implementadas; cada prueba declara las US/CU/ADR que verifica con `@pytest.mark.traza(...)` y una prueba falla si alguna US-01…24 queda sin cubrir.
+132 pruebas (unitarias de dominio + integración sobre BD real + API + paquete de datos CSV del PIA), **cobertura 99 %**. Las pruebas T1–T8 del informe de la Unidad 3 están implementadas; cada prueba declara las US/CU/ADR que verifica con `@pytest.mark.traza(...)` y una prueba falla si alguna US-01…24 queda sin cubrir.
+
+Los CSV del PIA (`tests/datos_csv/`: 120 casos y 20 transiciones) se ejecutan con `python -m scripts.ejecutar_csv` y en `tests/integration/test_datos_csv.py`; ver `docs/analisis/pruebas-csv.md`.
 
 ## Cómo usar la API
 En Swagger UI pulse **Authorize** y capture `X-Usuario` (p. ej. `maria`) y `X-Rol`:

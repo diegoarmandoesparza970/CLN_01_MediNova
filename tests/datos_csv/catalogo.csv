@@ -1,0 +1,21 @@
+﻿recurso_id,descripcion,precio_mxn,capacidad_o_stock,habilitado
+CITA-P001,Consulta general 01,244.00,13,1
+CITA-P002,Cardiología 02,315.00,16,1
+CITA-P003,Dermatología 03,386.00,19,1
+CITA-P004,Laboratorio 04,457.00,22,1
+CITA-P005,Consulta general 05,528.00,25,1
+CITA-P006,Cardiología 06,599.00,28,1
+CITA-P007,Dermatología 07,670.00,31,1
+CITA-P008,Laboratorio 08,741.00,34,1
+CITA-P009,Consulta general 09,812.00,37,1
+CITA-P010,Cardiología 10,883.00,40,1
+CITA-P011,Dermatología 11,954.00,43,0
+CITA-P012,Laboratorio 12,1025.00,46,1
+CITA-P013,Consulta general 13,1096.00,49,1
+CITA-P014,Cardiología 14,1167.00,52,1
+CITA-P015,Dermatología 15,1238.00,10,1
+CITA-P016,Laboratorio 16,1309.00,13,1
+CITA-P017,Consulta general 17,1380.00,16,1
+CITA-P018,Cardiología 18,1451.00,19,1
+CITA-P019,Dermatología 19,1522.00,22,1
+CITA-P020,Laboratorio 20,1593.00,25,1

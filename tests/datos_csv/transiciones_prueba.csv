@@ -1,0 +1,21 @@
+﻿caso_id,operacion_id,accion_sugerida,estado_inicial,resultado_alumno,instrucciones
+CITA-S001,CITA-O001,completar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S002,CITA-O002,cancelar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S003,CITA-O003,repetir_aprobacion,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S004,CITA-O004,saltar_estado,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S005,CITA-O005,aprobar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S006,CITA-O006,completar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S007,CITA-O007,cancelar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S008,CITA-O008,repetir_aprobacion,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S009,CITA-O009,saltar_estado,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S010,CITA-O010,aprobar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S011,CITA-O011,completar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S012,CITA-O012,cancelar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S013,CITA-O013,repetir_aprobacion,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S014,CITA-O014,saltar_estado,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S015,CITA-O015,aprobar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S016,CITA-O016,completar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S017,CITA-O017,cancelar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S018,CITA-O018,repetir_aprobacion,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S019,CITA-O019,saltar_estado,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
+CITA-S020,CITA-O020,aprobar,SOLICITADA,PENDIENTE,Ejecutar la operacion y registrar evento o excepcion
