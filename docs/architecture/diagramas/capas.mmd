@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph API["src/api (FastAPI)"]
+    RT["routers/*<br/>seguridad (rol/usuario)<br/>esquemas Pydantic<br/>manejo de errores HTTP"]
+  end
+  subgraph APP["src/application"]
+    SV["Service Layer<br/>Agendamiento · Atención · Jornada<br/>Paciente · Catálogo · Confirmación"]
+    CQ["Commands / Queries<br/>View Models"]
+    PU["Puertos: UnitOfWork, Reloj,<br/>Notificador, LectorDeConsultas"]
+  end
+  subgraph DOM["src/domain (sin dependencias externas)"]
+    AGG["AgendaMedica · Cita · Paciente"]
+    ST["MaquinaDeEstadosDeCita"]
+    SPC["Specifications · Políticas"]
+    RP["Repositorios (puertos)"]
+  end
+  subgraph INF["src/infrastructure"]
+    SQL["Repositorios SQL<br/>UnitOfWorkSql (SQLAlchemy)"]
+    LEC["LectorSql (CQRS)"]
+    OTR["Reloj · NotificadorPorCanal<br/>Configuración (env)"]
+  end
+  DB[("PostgreSQL 16")]
+  RT --> SV
+  RT --> CQ
+  SV --> AGG
+  SV --> PU
+  AGG --> ST
+  AGG --> SPC
+  SQL -. "implementa" .-> RP
+  SQL -. "implementa" .-> PU
+  LEC -. "implementa" .-> PU
+  OTR -. "implementa" .-> PU
+  SQL --> DB
+  LEC --> DB

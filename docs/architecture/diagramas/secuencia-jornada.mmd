@@ -1,0 +1,21 @@
+sequenceDiagram
+  actor R as Recepcionista
+  participant J as JornadaService
+  participant A as AgendaMedica (origen)
+  participant D as AgendaMedica (destino)
+  participant G as Reagendador
+  participant U as UnitOfWorkSql
+  R->>J: cancelar_jornada(médico, fecha, sucursal, motivo)
+  J->>A: cancelar_jornada(...)
+  A-->>J: citas afectadas (la más próxima primero)
+  J->>U: guardar + confirmar (auditoría por cada cita afectada)
+  R->>J: reagendar_cita_afectada(cita, médico, franja, sucursal)
+  J->>G: reagendar(origen, destino, ...)
+  G->>D: agendar(cita vinculada)
+  alt el destino no tiene lugar
+    D-->>G: error de negocio
+    G-->>J: el origen no cambia (una sola UoW)
+  else hay lugar
+    G->>A: marcar_reagendada (AFECTADA → REAGENDADA)
+    J->>U: guardar origen y destino, confirmar
+  end

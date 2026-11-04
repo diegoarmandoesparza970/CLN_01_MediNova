@@ -1,0 +1,3911 @@
+{
+  "components": {
+    "schemas": {
+      "AgendarCitaIn": {
+        "properties": {
+          "aseguradora_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aseguradora Id"
+          },
+          "canal": {
+            "$ref": "#/components/schemas/CanalDeSolicitud",
+            "default": "recepcion"
+          },
+          "especialidad": {
+            "default": "",
+            "title": "Especialidad",
+            "type": "string"
+          },
+          "expediente": {
+            "title": "Expediente",
+            "type": "string"
+          },
+          "franja": {
+            "$ref": "#/components/schemas/FranjaIn"
+          },
+          "medico_id": {
+            "title": "Medico Id",
+            "type": "string"
+          },
+          "motivo": {
+            "default": "",
+            "title": "Motivo",
+            "type": "string"
+          },
+          "numero_autorizacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numero Autorizacion"
+          },
+          "sucursal_id": {
+            "title": "Sucursal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "medico_id",
+          "sucursal_id",
+          "expediente",
+          "franja"
+        ],
+        "title": "AgendarCitaIn",
+        "type": "object"
+      },
+      "AseguradoraIn": {
+        "properties": {
+          "anticipacion_horas": {
+            "default": 0,
+            "description": "Horas de anticipación que pide la aseguradora",
+            "minimum": 0.0,
+            "title": "Anticipacion Horas",
+            "type": "integer"
+          },
+          "exige_autorizacion": {
+            "default": false,
+            "title": "Exige Autorizacion",
+            "type": "boolean"
+          },
+          "id": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nombre"
+        ],
+        "title": "AseguradoraIn",
+        "type": "object"
+      },
+      "AseguradoraOut": {
+        "properties": {
+          "anticipacion_horas": {
+            "title": "Anticipacion Horas",
+            "type": "integer"
+          },
+          "exige_autorizacion": {
+            "title": "Exige Autorizacion",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nombre",
+          "exige_autorizacion",
+          "anticipacion_horas"
+        ],
+        "title": "AseguradoraOut",
+        "type": "object"
+      },
+      "AuditoriaOut": {
+        "properties": {
+          "cita_id": {
+            "title": "Cita Id",
+            "type": "string"
+          },
+          "fecha": {
+            "format": "date-time",
+            "title": "Fecha",
+            "type": "string"
+          },
+          "motivo": {
+            "title": "Motivo",
+            "type": "string"
+          },
+          "tipo": {
+            "title": "Tipo",
+            "type": "string"
+          },
+          "usuario": {
+            "title": "Usuario",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cita_id",
+          "tipo",
+          "usuario",
+          "fecha",
+          "motivo"
+        ],
+        "title": "AuditoriaOut",
+        "type": "object"
+      },
+      "AutorizacionIn": {
+        "properties": {
+          "numero": {
+            "minLength": 1,
+            "title": "Numero",
+            "type": "string"
+          }
+        },
+        "required": [
+          "numero"
+        ],
+        "title": "AutorizacionIn",
+        "type": "object"
+      },
+      "CambioDeEstatusOut": {
+        "properties": {
+          "advertencias": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Advertencias",
+            "type": "array"
+          },
+          "cita_id": {
+            "title": "Cita Id",
+            "type": "string"
+          },
+          "estatus": {
+            "title": "Estatus",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cita_id",
+          "estatus"
+        ],
+        "title": "CambioDeEstatusOut",
+        "type": "object"
+      },
+      "CanalDeSolicitud": {
+        "enum": [
+          "telefono",
+          "whatsapp",
+          "recepcion"
+        ],
+        "title": "CanalDeSolicitud",
+        "type": "string"
+      },
+      "CancelarIn": {
+        "properties": {
+          "motivo": {
+            "examples": [
+              "El paciente no puede asistir"
+            ],
+            "minLength": 1,
+            "title": "Motivo",
+            "type": "string"
+          }
+        },
+        "required": [
+          "motivo"
+        ],
+        "title": "CancelarIn",
+        "type": "object"
+      },
+      "CancelarJornadaIn": {
+        "properties": {
+          "fecha": {
+            "format": "date",
+            "title": "Fecha",
+            "type": "string"
+          },
+          "medico_id": {
+            "title": "Medico Id",
+            "type": "string"
+          },
+          "motivo": {
+            "examples": [
+              "Enfermedad del médico"
+            ],
+            "minLength": 1,
+            "title": "Motivo",
+            "type": "string"
+          },
+          "sucursal_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Si se omite se cancelan las jornadas de todas las sucursales",
+            "title": "Sucursal Id"
+          }
+        },
+        "required": [
+          "medico_id",
+          "fecha",
+          "motivo"
+        ],
+        "title": "CancelarJornadaIn",
+        "type": "object"
+      },
+      "CierreIn": {
+        "properties": {
+          "estudios": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Estudios",
+            "type": "array"
+          },
+          "nueva_cita": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgendarCitaIn"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "receta": {
+            "default": "",
+            "title": "Receta",
+            "type": "string"
+          },
+          "requiere_nueva_cita": {
+            "default": false,
+            "title": "Requiere Nueva Cita",
+            "type": "boolean"
+          }
+        },
+        "title": "CierreIn",
+        "type": "object"
+      },
+      "CitaAfectadaOut": {
+        "properties": {
+          "cita_id": {
+            "title": "Cita Id",
+            "type": "string"
+          },
+          "estatus": {
+            "title": "Estatus",
+            "type": "string"
+          },
+          "expediente": {
+            "title": "Expediente",
+            "type": "string"
+          },
+          "hora_original": {
+            "format": "date-time",
+            "title": "Hora Original",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cita_id",
+          "expediente",
+          "hora_original",
+          "estatus"
+        ],
+        "title": "CitaAfectadaOut",
+        "type": "object"
+      },
+      "CitaAfectadaVMOut": {
+        "properties": {
+          "cita_id": {
+            "title": "Cita Id",
+            "type": "string"
+          },
+          "correo": {
+            "title": "Correo",
+            "type": "string"
+          },
+          "estado_reagendado": {
+            "title": "Estado Reagendado",
+            "type": "string"
+          },
+          "expediente": {
+            "title": "Expediente",
+            "type": "string"
+          },
+          "hora_original": {
+            "format": "date-time",
+            "title": "Hora Original",
+            "type": "string"
+          },
+          "nueva_cita_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nueva Cita Id"
+          },
+          "paciente": {
+            "title": "Paciente",
+            "type": "string"
+          },
+          "telefono": {
+            "title": "Telefono",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cita_id",
+          "expediente",
+          "paciente",
+          "telefono",
+          "correo",
+          "hora_original",
+          "estado_reagendado",
+          "nueva_cita_id"
+        ],
+        "title": "CitaAfectadaVMOut",
+        "type": "object"
+      },
+      "CitaAgendadaOut": {
+        "properties": {
+          "advertencias": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Advertencias",
+            "type": "array"
+          },
+          "autorizacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Autorizacion"
+          },
+          "cita_id": {
+            "title": "Cita Id",
+            "type": "string"
+          },
+          "estatus": {
+            "title": "Estatus",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cita_id",
+          "estatus",
+          "autorizacion",
+          "advertencias"
+        ],
+        "title": "CitaAgendadaOut",
+        "type": "object"
+      },
+      "CitaOut": {
+        "properties": {
+          "aseguradora_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aseguradora Id"
+          },
+          "autorizacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Autorizacion"
+          },
+          "canal": {
+            "title": "Canal",
+            "type": "string"
+          },
+          "cita_origen_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cita Origen Id"
+          },
+          "confirmacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confirmacion"
+          },
+          "especialidad": {
+            "title": "Especialidad",
+            "type": "string"
+          },
+          "estado": {
+            "title": "Estado",
+            "type": "string"
+          },
+          "expediente": {
+            "title": "Expediente",
+            "type": "string"
+          },
+          "fin": {
+            "format": "date-time",
+            "title": "Fin",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "inicio": {
+            "format": "date-time",
+            "title": "Inicio",
+            "type": "string"
+          },
+          "llegada": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llegada"
+          },
+          "medico_id": {
+            "title": "Medico Id",
+            "type": "string"
+          },
+          "motivo": {
+            "title": "Motivo",
+            "type": "string"
+          },
+          "numero_autorizacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numero Autorizacion"
+          },
+          "paciente": {
+            "title": "Paciente",
+            "type": "string"
+          },
+          "sucursal_id": {
+            "title": "Sucursal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "expediente",
+          "paciente",
+          "medico_id",
+          "sucursal_id",
+          "inicio",
+          "fin",
+          "estado",
+          "canal",
+          "especialidad",
+          "motivo",
+          "aseguradora_id",
+          "autorizacion",
+          "numero_autorizacion",
+          "confirmacion",
+          "cita_origen_id",
+          "llegada"
+        ],
+        "title": "CitaOut",
+        "type": "object"
+      },
+      "CitaReagendadaOut": {
+        "properties": {
+          "cita_nueva_id": {
+            "title": "Cita Nueva Id",
+            "type": "string"
+          },
+          "cita_origen_id": {
+            "title": "Cita Origen Id",
+            "type": "string"
+          },
+          "estatus": {
+            "title": "Estatus",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cita_origen_id",
+          "cita_nueva_id",
+          "estatus"
+        ],
+        "title": "CitaReagendadaOut",
+        "type": "object"
+      },
+      "ConfirmacionIn": {
+        "properties": {
+          "respuesta": {
+            "description": "confirmada | rechazada | sin_respuesta",
+            "examples": [
+              "confirmada"
+            ],
+            "title": "Respuesta",
+            "type": "string"
+          }
+        },
+        "required": [
+          "respuesta"
+        ],
+        "title": "ConfirmacionIn",
+        "type": "object"
+      },
+      "DisponibilidadOut": {
+        "properties": {
+          "especialidades": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Especialidades",
+            "type": "array"
+          },
+          "fecha": {
+            "format": "date",
+            "title": "Fecha",
+            "type": "string"
+          },
+          "medico": {
+            "title": "Medico",
+            "type": "string"
+          },
+          "medico_id": {
+            "title": "Medico Id",
+            "type": "string"
+          },
+          "sucursales": {
+            "items": {
+              "$ref": "#/components/schemas/DisponibilidadSucursalOut"
+            },
+            "title": "Sucursales",
+            "type": "array"
+          }
+        },
+        "required": [
+          "medico_id",
+          "medico",
+          "especialidades",
+          "fecha",
+          "sucursales"
+        ],
+        "title": "DisponibilidadOut",
+        "type": "object"
+      },
+      "DisponibilidadSucursalOut": {
+        "properties": {
+          "franjas": {
+            "items": {
+              "$ref": "#/components/schemas/FranjaVMOut"
+            },
+            "title": "Franjas",
+            "type": "array"
+          },
+          "sucursal_id": {
+            "title": "Sucursal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sucursal_id",
+          "franjas"
+        ],
+        "title": "DisponibilidadSucursalOut",
+        "type": "object"
+      },
+      "EnviarConfirmacionesIn": {
+        "properties": {
+          "fecha": {
+            "format": "date",
+            "title": "Fecha",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fecha"
+        ],
+        "title": "EnviarConfirmacionesIn",
+        "type": "object"
+      },
+      "ErrorOut": {
+        "properties": {
+          "codigo": {
+            "title": "Codigo",
+            "type": "string"
+          },
+          "mensaje": {
+            "title": "Mensaje",
+            "type": "string"
+          }
+        },
+        "required": [
+          "codigo",
+          "mensaje"
+        ],
+        "title": "ErrorOut",
+        "type": "object"
+      },
+      "EspecialidadIn": {
+        "properties": {
+          "id": {
+            "examples": [
+              "CARD"
+            ],
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nombre"
+        ],
+        "title": "EspecialidadIn",
+        "type": "object"
+      },
+      "EspecialidadOut": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nombre"
+        ],
+        "title": "EspecialidadOut",
+        "type": "object"
+      },
+      "FilaReporteOut": {
+        "properties": {
+          "agendadas": {
+            "title": "Agendadas",
+            "type": "integer"
+          },
+          "atendidas": {
+            "title": "Atendidas",
+            "type": "integer"
+          },
+          "canceladas": {
+            "title": "Canceladas",
+            "type": "integer"
+          },
+          "medico": {
+            "title": "Medico",
+            "type": "string"
+          },
+          "medico_id": {
+            "title": "Medico Id",
+            "type": "string"
+          },
+          "no_shows": {
+            "title": "No Shows",
+            "type": "integer"
+          },
+          "ocupacion_pct": {
+            "title": "Ocupacion Pct",
+            "type": "number"
+          },
+          "sucursal_id": {
+            "title": "Sucursal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sucursal_id",
+          "medico_id",
+          "medico",
+          "agendadas",
+          "atendidas",
+          "no_shows",
+          "canceladas",
+          "ocupacion_pct"
+        ],
+        "title": "FilaReporteOut",
+        "type": "object"
+      },
+      "FranjaIn": {
+        "properties": {
+          "fin": {
+            "examples": [
+              "2026-11-10T09:30:00"
+            ],
+            "format": "date-time",
+            "title": "Fin",
+            "type": "string"
+          },
+          "inicio": {
+            "examples": [
+              "2026-11-10T09:00:00"
+            ],
+            "format": "date-time",
+            "title": "Inicio",
+            "type": "string"
+          }
+        },
+        "required": [
+          "inicio",
+          "fin"
+        ],
+        "title": "FranjaIn",
+        "type": "object"
+      },
+      "FranjaVMOut": {
+        "properties": {
+          "estado": {
+            "title": "Estado",
+            "type": "string"
+          },
+          "fin": {
+            "format": "date-time",
+            "title": "Fin",
+            "type": "string"
+          },
+          "inicio": {
+            "format": "date-time",
+            "title": "Inicio",
+            "type": "string"
+          }
+        },
+        "required": [
+          "inicio",
+          "fin",
+          "estado"
+        ],
+        "title": "FranjaVMOut",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HistorialNoShowsOut": {
+        "properties": {
+          "alerta": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alerta"
+          },
+          "expediente": {
+            "title": "Expediente",
+            "type": "string"
+          },
+          "fechas": {
+            "items": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "title": "Fechas",
+            "type": "array"
+          },
+          "paciente": {
+            "title": "Paciente",
+            "type": "string"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expediente",
+          "paciente",
+          "total",
+          "fechas",
+          "alerta"
+        ],
+        "title": "HistorialNoShowsOut",
+        "type": "object"
+      },
+      "JornadaIn": {
+        "properties": {
+          "franja": {
+            "$ref": "#/components/schemas/FranjaIn"
+          },
+          "medico_id": {
+            "title": "Medico Id",
+            "type": "string"
+          },
+          "sucursal_id": {
+            "title": "Sucursal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "medico_id",
+          "sucursal_id",
+          "franja"
+        ],
+        "title": "JornadaIn",
+        "type": "object"
+      },
+      "JornadaOut": {
+        "properties": {
+          "jornada_id": {
+            "title": "Jornada Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "jornada_id"
+        ],
+        "title": "JornadaOut",
+        "type": "object"
+      },
+      "LlegadaIn": {
+        "properties": {
+          "actualiza_aseguradora": {
+            "default": false,
+            "title": "Actualiza Aseguradora",
+            "type": "boolean"
+          },
+          "aseguradora_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aseguradora Id"
+          },
+          "hora_llegada": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Si se omite se usa el reloj del servidor",
+            "title": "Hora Llegada"
+          },
+          "telefono": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "US-22: teléfono confirmado en recepción",
+            "title": "Telefono"
+          }
+        },
+        "title": "LlegadaIn",
+        "type": "object"
+      },
+      "MedicoIn": {
+        "properties": {
+          "especialidades": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Especialidades",
+            "type": "array"
+          },
+          "id": {
+            "examples": [
+              "MED-010"
+            ],
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "limite_sobrecupo": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Limite Sobrecupo",
+            "type": "integer"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          },
+          "por_honorarios": {
+            "default": false,
+            "title": "Por Honorarios",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "nombre"
+        ],
+        "title": "MedicoIn",
+        "type": "object"
+      },
+      "MedicoOut": {
+        "properties": {
+          "especialidades": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Especialidades",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "limite_sobrecupo": {
+            "title": "Limite Sobrecupo",
+            "type": "integer"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          },
+          "por_honorarios": {
+            "title": "Por Honorarios",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "nombre",
+          "especialidades",
+          "limite_sobrecupo",
+          "por_honorarios"
+        ],
+        "title": "MedicoOut",
+        "type": "object"
+      },
+      "ModificarIn": {
+        "properties": {
+          "franja": {
+            "$ref": "#/components/schemas/FranjaIn"
+          },
+          "motivo": {
+            "minLength": 1,
+            "title": "Motivo",
+            "type": "string"
+          },
+          "sucursal_id": {
+            "title": "Sucursal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "franja",
+          "sucursal_id",
+          "motivo"
+        ],
+        "title": "ModificarIn",
+        "type": "object"
+      },
+      "NotificacionOut": {
+        "properties": {
+          "canal": {
+            "title": "Canal",
+            "type": "string"
+          },
+          "cita_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cita Id"
+          },
+          "creada_en": {
+            "format": "date-time",
+            "title": "Creada En",
+            "type": "string"
+          },
+          "estado": {
+            "title": "Estado",
+            "type": "string"
+          },
+          "expediente": {
+            "title": "Expediente",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "texto": {
+            "title": "Texto",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "cita_id",
+          "expediente",
+          "canal",
+          "estado",
+          "texto",
+          "creada_en"
+        ],
+        "title": "NotificacionOut",
+        "type": "object"
+      },
+      "PacienteActualizarIn": {
+        "properties": {
+          "actualiza_aseguradora": {
+            "default": false,
+            "description": "True para fijar la aseguradora (incluso a null = particular)",
+            "title": "Actualiza Aseguradora",
+            "type": "boolean"
+          },
+          "aseguradora_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aseguradora Id"
+          },
+          "correo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correo"
+          },
+          "telefono": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telefono"
+          }
+        },
+        "title": "PacienteActualizarIn",
+        "type": "object"
+      },
+      "PacienteIn": {
+        "properties": {
+          "aseguradora_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aseguradora Id"
+          },
+          "correo": {
+            "default": "",
+            "title": "Correo",
+            "type": "string"
+          },
+          "nacimiento": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nacimiento"
+          },
+          "nombre": {
+            "minLength": 1,
+            "title": "Nombre",
+            "type": "string"
+          },
+          "telefono": {
+            "examples": [
+              "8112345678"
+            ],
+            "title": "Telefono",
+            "type": "string"
+          }
+        },
+        "required": [
+          "nombre",
+          "telefono"
+        ],
+        "title": "PacienteIn",
+        "type": "object"
+      },
+      "PacienteOut": {
+        "properties": {
+          "aseguradora_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aseguradora Id"
+          },
+          "correo": {
+            "title": "Correo",
+            "type": "string"
+          },
+          "expediente": {
+            "title": "Expediente",
+            "type": "string"
+          },
+          "nacimiento": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nacimiento"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          },
+          "telefono": {
+            "title": "Telefono",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expediente",
+          "nombre",
+          "telefono",
+          "correo",
+          "nacimiento",
+          "aseguradora_id"
+        ],
+        "title": "PacienteOut",
+        "type": "object"
+      },
+      "ReagendarIn": {
+        "properties": {
+          "franja": {
+            "$ref": "#/components/schemas/FranjaIn"
+          },
+          "medico_id": {
+            "title": "Medico Id",
+            "type": "string"
+          },
+          "sucursal_id": {
+            "title": "Sucursal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "medico_id",
+          "sucursal_id",
+          "franja"
+        ],
+        "title": "ReagendarIn",
+        "type": "object"
+      },
+      "ReporteOut": {
+        "properties": {
+          "desde": {
+            "format": "date",
+            "title": "Desde",
+            "type": "string"
+          },
+          "filas": {
+            "items": {
+              "$ref": "#/components/schemas/FilaReporteOut"
+            },
+            "title": "Filas",
+            "type": "array"
+          },
+          "hasta": {
+            "format": "date",
+            "title": "Hasta",
+            "type": "string"
+          },
+          "tasa_no_show_pct": {
+            "title": "Tasa No Show Pct",
+            "type": "number"
+          },
+          "tiempo_promedio_reagendado_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tiempo Promedio Reagendado Min"
+          },
+          "total_citas": {
+            "title": "Total Citas",
+            "type": "integer"
+          },
+          "total_no_shows": {
+            "title": "Total No Shows",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "desde",
+          "hasta",
+          "filas",
+          "total_citas",
+          "total_no_shows",
+          "tasa_no_show_pct",
+          "tiempo_promedio_reagendado_min"
+        ],
+        "title": "ReporteOut",
+        "type": "object"
+      },
+      "ResultadoDeLlegadaOut": {
+        "properties": {
+          "cita_id": {
+            "title": "Cita Id",
+            "type": "string"
+          },
+          "estatus": {
+            "title": "Estatus",
+            "type": "string"
+          },
+          "hora_llegada": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hora Llegada"
+          },
+          "mensaje": {
+            "title": "Mensaje",
+            "type": "string"
+          },
+          "resultado": {
+            "title": "Resultado",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cita_id",
+          "resultado",
+          "estatus",
+          "mensaje",
+          "hora_llegada"
+        ],
+        "title": "ResultadoDeLlegadaOut",
+        "type": "object"
+      },
+      "SobrecupoIn": {
+        "properties": {
+          "limite": {
+            "description": "Citas adicionales que el médico acepta (0 = ninguna)",
+            "minimum": 0.0,
+            "title": "Limite",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "limite"
+        ],
+        "title": "SobrecupoIn",
+        "type": "object"
+      },
+      "SucursalIn": {
+        "properties": {
+          "id": {
+            "examples": [
+              "CENTRO"
+            ],
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nombre"
+        ],
+        "title": "SucursalIn",
+        "type": "object"
+      },
+      "SucursalOut": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nombre"
+        ],
+        "title": "SucursalOut",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "Rol": {
+        "description": "recepcion | administrativo | direccion",
+        "in": "header",
+        "name": "X-Rol",
+        "type": "apiKey"
+      },
+      "Usuario": {
+        "description": "Usuario que opera (se audita)",
+        "in": "header",
+        "name": "X-Usuario",
+        "type": "apiKey"
+      }
+    }
+  },
+  "info": {
+    "contact": {
+      "name": "Equipo CLN · MediNova"
+    },
+    "description": "\nAPI de **MediNova** (3 sucursales, ~35 médicos): agendar sin duplicados entre sucursales, controlar\nsobrecupo, registrar llegadas con tolerancia de 15 min, cancelar jornadas y reagendar, auditar cambios\ny medir no-shows.\n\n**Cómo probar:** pulse *Authorize* y capture `X-Usuario` (p. ej. `maria`) y `X-Rol`\n(`recepcion`, `administrativo` o `direccion`). Solo `recepcion` agenda y cancela (entrevista, P3).\n",
+    "title": "MediNova API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/aseguradoras": {
+      "get": {
+        "operationId": "listar_aseguradoras_aseguradoras_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AseguradoraOut"
+                  },
+                  "title": "Response Listar Aseguradoras Aseguradoras Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Listar Aseguradoras",
+        "tags": [
+          "Catálogos"
+        ]
+      },
+      "post": {
+        "operationId": "crear_aseguradora_aseguradoras_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AseguradoraIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AseguradoraOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Crear Aseguradora",
+        "tags": [
+          "Catálogos"
+        ]
+      }
+    },
+    "/citas": {
+      "get": {
+        "operationId": "listar_citas_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fecha",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Fecha"
+            }
+          },
+          {
+            "in": "query",
+            "name": "medico_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Medico Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "expediente",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Expediente"
+            }
+          },
+          {
+            "in": "query",
+            "name": "estado",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Estado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CitaOut"
+                  },
+                  "title": "Response Listar Citas Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Listar citas con filtros",
+        "tags": [
+          "Citas"
+        ]
+      },
+      "post": {
+        "operationId": "agendar_citas_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendarCitaIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitaAgendadaOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Agendar cita y bloquear el horario (CU-01, US-04, US-05, US-10, US-12, US-18)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/confirmaciones/enviar": {
+      "post": {
+        "operationId": "enviar_confirmaciones_citas_confirmaciones_enviar_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnviarConfirmacionesIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "title": "Response Enviar Confirmaciones Citas Confirmaciones Enviar Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Enviar recordatorios de las citas de una fecha por su canal de origen (US-06, US-18)",
+        "tags": [
+          "Citas",
+          "Confirmaciones"
+        ]
+      }
+    },
+    "/citas/confirmaciones/liberar-sin-respuesta": {
+      "post": {
+        "operationId": "liberar_citas_confirmaciones_liberar_sin_respuesta_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Liberar Citas Confirmaciones Liberar Sin Respuesta Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Liberar horarios sin confirmación tras 24 h (US-21)",
+        "tags": [
+          "Citas",
+          "Confirmaciones"
+        ]
+      }
+    },
+    "/citas/{cita_id}": {
+      "get": {
+        "operationId": "obtener_citas__cita_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitaOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Obtener",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/autorizacion": {
+      "post": {
+        "operationId": "autorizacion_citas__cita_id__autorizacion_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutorizacionIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CambioDeEstatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Registrar el número de autorización de la aseguradora (US-12)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/cancelar": {
+      "post": {
+        "operationId": "cancelar_citas__cita_id__cancelar_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelarIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CambioDeEstatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Cancelar cita con usuario, fecha y motivo (CU-04, US-17, US-19)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/cierre": {
+      "post": {
+        "operationId": "cierre_citas__cita_id__cierre_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CierreIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CambioDeEstatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Cerrar la consulta: receta, estudios y/o nueva cita (US-13)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/confirmacion": {
+      "post": {
+        "operationId": "respuesta_confirmacion_citas__cita_id__confirmacion_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmacionIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Respuesta Confirmacion Citas  Cita Id  Confirmacion Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Registrar la respuesta del paciente a la confirmación (US-06)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/llegada": {
+      "post": {
+        "operationId": "llegada_citas__cita_id__llegada_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/LlegadaIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoDeLlegadaOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Registrar llegada y evaluar el retraso con tolerancia de 15 min (CU-02, US-07, US-08, US-09)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/modificar": {
+      "post": {
+        "operationId": "modificar_citas__cita_id__modificar_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModificarIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CambioDeEstatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Modificar horario o sucursal de la cita (CU-04, US-19)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/no-atendida-por-retraso": {
+      "post": {
+        "operationId": "no_atendida_citas__cita_id__no_atendida_por_retraso_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CambioDeEstatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "El médico no puede atender al paciente con retraso (US-09)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/no-show": {
+      "post": {
+        "operationId": "no_show_citas__cita_id__no_show_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CambioDeEstatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Marcar no-show (CU-05, US-14, US-20)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/pago-particular": {
+      "post": {
+        "operationId": "pago_particular_citas__cita_id__pago_particular_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CambioDeEstatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Sin autorización, el paciente paga como particular",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/citas/{cita_id}/reagendar": {
+      "post": {
+        "operationId": "reagendar_citas__cita_id__reagendar_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cita_id",
+            "required": true,
+            "schema": {
+              "title": "Cita Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReagendarIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitaReagendadaOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Reagendar una cita afectada o no atendida por retraso: crea una cita vinculada (US-09, US-11)",
+        "tags": [
+          "Citas"
+        ]
+      }
+    },
+    "/consultas/auditoria": {
+      "get": {
+        "operationId": "auditoria_consultas_auditoria_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cita_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cita Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AuditoriaOut"
+                  },
+                  "title": "Response Auditoria Consultas Auditoria Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Evidencia de cancelaciones y modificaciones (US-17)",
+        "tags": [
+          "Consultas (CQRS)"
+        ]
+      }
+    },
+    "/consultas/citas-afectadas": {
+      "get": {
+        "operationId": "citas_afectadas_consultas_citas_afectadas_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "medico_id",
+            "required": true,
+            "schema": {
+              "title": "Medico Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "fecha",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "Fecha",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sucursal_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sucursal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CitaAfectadaVMOut"
+                  },
+                  "title": "Response Citas Afectadas Consultas Citas Afectadas Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Pacientes afectados por una jornada cancelada, la cita más próxima primero (US-11)",
+        "tags": [
+          "Consultas (CQRS)"
+        ]
+      }
+    },
+    "/consultas/disponibilidad": {
+      "get": {
+        "operationId": "disponibilidad_consultas_disponibilidad_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fecha",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "Fecha",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "medico_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Medico Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "especialidad",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Especialidad"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sucursal_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sucursal Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "solo_libres",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Solo Libres",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DisponibilidadOut"
+                  },
+                  "title": "Response Disponibilidad Consultas Disponibilidad Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Disponibilidad del médico en todas sus sucursales (US-01, US-16)",
+        "tags": [
+          "Consultas (CQRS)"
+        ]
+      }
+    },
+    "/consultas/historial-no-shows/{expediente}": {
+      "get": {
+        "operationId": "historial_consultas_historial_no_shows__expediente__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "expediente",
+            "required": true,
+            "schema": {
+              "title": "Expediente",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistorialNoShowsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Historial de no-shows de un paciente (US-14)",
+        "tags": [
+          "Consultas (CQRS)"
+        ]
+      }
+    },
+    "/consultas/notificaciones": {
+      "get": {
+        "operationId": "notificaciones_consultas_notificaciones_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limite",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limite",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NotificacionOut"
+                  },
+                  "title": "Response Notificaciones Consultas Notificaciones Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Bandeja de notificaciones por canal (US-18)",
+        "tags": [
+          "Consultas (CQRS)"
+        ]
+      }
+    },
+    "/consultas/reporte": {
+      "get": {
+        "operationId": "reporte_consultas_reporte_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "desde",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "Desde",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "hasta",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "Hasta",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReporteOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Reporte consolidado por sucursal y médico (US-15, US-24)",
+        "tags": [
+          "Consultas (CQRS)"
+        ]
+      }
+    },
+    "/especialidades": {
+      "get": {
+        "operationId": "listar_especialidades_especialidades_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/EspecialidadOut"
+                  },
+                  "title": "Response Listar Especialidades Especialidades Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Listar Especialidades",
+        "tags": [
+          "Catálogos"
+        ]
+      },
+      "post": {
+        "operationId": "crear_especialidad_especialidades_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EspecialidadIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EspecialidadOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Crear Especialidad",
+        "tags": [
+          "Catálogos"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Estado del servicio y la base de datos",
+        "tags": [
+          "Operación"
+        ]
+      }
+    },
+    "/jornadas": {
+      "post": {
+        "operationId": "abrir_jornadas_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JornadaIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JornadaOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Abrir la jornada del médico en una sucursal (horarios semanales)",
+        "tags": [
+          "Jornadas"
+        ]
+      }
+    },
+    "/jornadas/cancelar": {
+      "post": {
+        "operationId": "cancelar_jornadas_cancelar_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelarJornadaIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CitaAfectadaOut"
+                  },
+                  "title": "Response Cancelar Jornadas Cancelar Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "El médico cancela su jornada: las citas quedan afectadas (CU-03, US-11)",
+        "tags": [
+          "Jornadas"
+        ]
+      }
+    },
+    "/medicos": {
+      "get": {
+        "operationId": "listar_medicos_medicos_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MedicoOut"
+                  },
+                  "title": "Response Listar Medicos Medicos Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Listar Medicos",
+        "tags": [
+          "Catálogos"
+        ]
+      },
+      "post": {
+        "operationId": "crear_medico_medicos_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicoIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedicoOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Crear Medico",
+        "tags": [
+          "Catálogos"
+        ]
+      }
+    },
+    "/medicos/{medico_id}/sobrecupo": {
+      "put": {
+        "operationId": "definir_sobrecupo_medicos__medico_id__sobrecupo_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "medico_id",
+            "required": true,
+            "schema": {
+              "title": "Medico Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SobrecupoIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedicoOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Definir el límite de sobrecupo del médico (US-10)",
+        "tags": [
+          "Catálogos"
+        ]
+      }
+    },
+    "/pacientes": {
+      "get": {
+        "operationId": "buscar_pacientes_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expediente",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Expediente"
+            }
+          },
+          {
+            "in": "query",
+            "name": "telefono",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Telefono"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PacienteOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Buscar por expediente o teléfono (US-03)",
+        "tags": [
+          "Pacientes"
+        ]
+      },
+      "post": {
+        "operationId": "registrar_pacientes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PacienteIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PacienteOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOut"
+                }
+              }
+            },
+            "description": "Paciente duplicado (mismo teléfono)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Registrar paciente nuevo con expediente único (US-02)",
+        "tags": [
+          "Pacientes"
+        ]
+      }
+    },
+    "/pacientes/{expediente}": {
+      "patch": {
+        "operationId": "actualizar_pacientes__expediente__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "expediente",
+            "required": true,
+            "schema": {
+              "title": "Expediente",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PacienteActualizarIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PacienteOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Actualizar teléfono, correo o aseguradora (US-22)",
+        "tags": [
+          "Pacientes"
+        ]
+      }
+    },
+    "/sucursales": {
+      "get": {
+        "operationId": "listar_sucursales_sucursales_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SucursalOut"
+                  },
+                  "title": "Response Listar Sucursales Sucursales Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Listar Sucursales",
+        "tags": [
+          "Catálogos"
+        ]
+      },
+      "post": {
+        "operationId": "crear_sucursal_sucursales_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SucursalIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SucursalOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Usuario": []
+          },
+          {
+            "Rol": []
+          }
+        ],
+        "summary": "Crear Sucursal",
+        "tags": [
+          "Catálogos"
+        ]
+      }
+    }
+  }
+}

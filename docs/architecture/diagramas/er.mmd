@@ -1,0 +1,40 @@
+erDiagram
+  SUCURSALES ||--o{ JORNADAS : "sucursal_id"
+  MEDICOS ||--o{ AGENDAS : "medico_id"
+  AGENDAS ||--o{ JORNADAS : "medico_id+fecha"
+  AGENDAS ||--o{ CITAS : "medico_id+fecha"
+  PACIENTES ||--o{ CITAS : "expediente"
+  CITAS ||--o{ AUDITORIA : "cita_id"
+  CITAS ||--o{ NOTIFICACIONES : "cita_id"
+  ASEGURADORAS ||--o{ CITAS : "aseguradora_id"
+  AGENDAS { string medico_id PK
+            date fecha PK
+            int version }
+  JORNADAS { string id PK
+             string sucursal_id
+             datetime inicio
+             datetime fin
+             bool cancelada
+             datetime cancelada_en }
+  CITAS { string id PK
+          string expediente
+          string sucursal_id
+          datetime inicio
+          datetime fin
+          string estado
+          string canal
+          string aut_estado
+          string cita_origen_id
+          datetime llegada
+          datetime reagendada_en }
+  PACIENTES { string expediente PK
+              string telefono_normalizado UK
+              string aseguradora_id }
+  MEDICOS { string id PK
+            int limite_sobrecupo }
+  AUDITORIA { int id PK
+              string cita_id
+              string tipo
+              string usuario
+              datetime fecha
+              string motivo }

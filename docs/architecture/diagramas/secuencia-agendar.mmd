@@ -1,0 +1,32 @@
+sequenceDiagram
+  actor R as Recepcionista
+  participant API as POST /citas (API)
+  participant S as AgendamientoService
+  participant U as UnitOfWorkSql
+  participant A as AgendaMedica
+  participant SP as Specifications
+  participant DB as PostgreSQL
+  participant N as Notificador
+  R->>API: AgendarCita (X-Rol: recepcion)
+  API->>S: agendar_cita(cmd)
+  S->>U: with uow (abre transacción)
+  S->>U: valida paciente, médico, sucursal, aseguradora
+  S->>U: franjas_activas_de_paciente()
+  S->>S: PacienteSinCitaSolapada / PoliticaDeAutorizacion
+  S->>U: obtener_por_medico_y_fecha()
+  U->>DB: SELECT agenda, jornadas, citas
+  S->>A: agendar(cita, limite, ahora)
+  A->>SP: HorarioLibre | SobrecupoDisponible, FranjaDentroDeJornadaVigente
+  SP-->>A: cumple / HorarioNoDisponible / SobrecupoExcedido
+  S->>U: guardar(agenda)
+  U->>DB: UPDATE agendas SET version = v+1 WHERE version = v
+  alt conflicto de versión (otra recepción guardó antes)
+    DB-->>U: 0 filas
+    U-->>S: ConflictoDeVersion
+    S-->>API: HorarioNoDisponible (409)
+  else versión vigente
+    S->>U: confirmar()
+    U->>DB: auditoría (si aplica) + COMMIT
+    U->>N: enviar(confirmación por canal de origen)
+    S-->>API: CitaAgendadaDto (201)
+  end

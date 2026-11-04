@@ -1,0 +1,62 @@
+GET /demo/reloj -> 200  {"ahora": "2026-11-03T17:23:59"}
+PUT /demo/reloj -> 200  {"ahora": "2026-11-04T08:00:00"}
+GET /pacientes -> 200  {"expediente": "EXP-000001", "nombre": "Paciente Demo Uno", "telefono": "8112345678", "correo": "demo1@example.com", "nacimiento": null, "aseguradora_id": null}
+GET /pacientes -> 200  {"expediente": "EXP-000002", "nombre": "Paciente Demo Dos", "telefono": "8187654321", "correo": "demo2@example.com", "nacimiento": null, "aseguradora_id": "SALUDPLUS"}
+
+=== 1. Disponibilidad de MED-002 en sus dos sucursales (US-01, US-16)
+GET /consultas/disponibilidad -> 200  [{"medico_id": "MED-002", "medico": "Dr. Luis Garza", "especialidades": ["CARD", "MG"], "fecha": "2026-11-04", "sucursales": [{"sucursal_id": "CENTRO", "franjas": [{"inicio": "2026-11-04T09:00:00", "fin": "2026-11-04T09:30:00", "e
+
+=== 2. Agendar y rechazo por horario ocupado en otra sucursal (US-04, US-05)
+POST /citas -> 201  {"cita_id": "01faa529-b670-41a0-b67c-01cda6af3abf", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /citas -> 409  {"codigo": "horario_no_disponible", "mensaje": "Horario no disponible: el médico ya tiene una cita en esa franja"}
+
+=== 3. Sobrecupo: MED-002 acepta hasta 2 extras (US-10)
+POST /citas -> 201  {"cita_id": "8b496ccb-ff95-4db7-9488-fb382b7cc854", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /citas -> 201  {"cita_id": "b38ca118-f7a6-4b16-841c-ab506d6ebc7d", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /pacientes -> 201  {"expediente": "EXP-000003", "nombre": "Paciente Tres", "telefono": "8100000003", "correo": "", "nacimiento": null, "aseguradora_id": null}
+POST /pacientes -> 201  {"expediente": "EXP-000004", "nombre": "Paciente Cuatro", "telefono": "8100000004", "correo": "", "nacimiento": null, "aseguradora_id": null}
+POST /citas -> 201  {"cita_id": "199f6191-bd74-41bf-8b62-db51529ae124", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /citas -> 409  {"codigo": "sobrecupo_excedido", "mensaje": "Se alcanzó el límite de sobrecupo del médico (2)"}
+
+=== 4. Aseguradora que exige autorización: queda pendiente (US-12)
+POST /citas -> 201  {"cita_id": "1202b3b5-9a92-47e7-8faa-a0369f746454", "estatus": "pendiente_autorizacion", "autorizacion": "pendiente", "advertencias": ["La aseguradora pide autorización con 48 h de anticipación"]}
+POST /citas/1202b3b5-9a92-47e7-8faa-a0369f746454/autorizacion -> 200  {"cita_id": "1202b3b5-9a92-47e7-8faa-a0369f746454", "estatus": "agendada", "advertencias": []}
+
+=== 5. Llegada con 14 y 16 minutos de retraso (CU-02, US-08, US-09)
+POST /citas/01faa529-b670-41a0-b67c-01cda6af3abf/llegada -> 200  {"cita_id": "01faa529-b670-41a0-b67c-01cda6af3abf", "resultado": "consultar_medico", "estatus": "presente", "mensaje": "Retraso dentro de la tolerancia: consultar al médico si puede atenderlo", "hora_llegada": "2026-11-04T09:14:00
+POST /citas/1202b3b5-9a92-47e7-8faa-a0369f746454/llegada -> 200  {"cita_id": "1202b3b5-9a92-47e7-8faa-a0369f746454", "resultado": "no_atendida_por_retraso", "estatus": "no_atendida_por_retraso", "mensaje": "Retraso mayor a la tolerancia: cita no atendida por retraso; se puede reagendar", "hora_
+
+=== 6. Cierre de consulta con receta, estudios y nueva cita (US-13)
+POST /citas/01faa529-b670-41a0-b67c-01cda6af3abf/cierre -> 200  {"cita_id": "01faa529-b670-41a0-b67c-01cda6af3abf", "estatus": "atendida", "advertencias": ["Nueva cita 52d505fd-7cd2-438a-b53c-20e32b4590a4 (agendada)"]}
+
+=== 7. Cancelar con evidencia y auditar (US-17, CU-04)
+POST /citas -> 201  {"cita_id": "c300581f-16fd-4916-9080-216ac95ba471", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /citas/c300581f-16fd-4916-9080-216ac95ba471/cancelar -> 200  {"cita_id": "c300581f-16fd-4916-9080-216ac95ba471", "estatus": "cancelada", "advertencias": []}
+GET /consultas/auditoria -> 200  [{"cita_id": "c300581f-16fd-4916-9080-216ac95ba471", "tipo": "CitaCancelada", "usuario": "maria", "fecha": "2026-11-04T08:00:00", "motivo": "El paciente no puede asistir"}]
+POST /citas -> 409  {"codigo": "cita_solapada_del_paciente", "mensaje": "El paciente ya tiene una cita en ese horario (otra sucursal o médico)"}
+
+=== 8. No-show: se avanza el reloj simulado (CU-05, US-14, US-20)
+POST /citas -> 201  {"cita_id": "4b465bc8-9ce8-46d1-b57a-f6aacf9fe335", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /citas/4b465bc8-9ce8-46d1-b57a-f6aacf9fe335/no-show -> 409  {"codigo": "transicion_de_estatus_invalida", "mensaje": "Solo es no-show una cita cuya hora ya pasó"}
+PUT /demo/reloj -> 200  {"ahora": "2026-11-04T13:00:00"}
+POST /citas/4b465bc8-9ce8-46d1-b57a-f6aacf9fe335/no-show -> 200  {"cita_id": "4b465bc8-9ce8-46d1-b57a-f6aacf9fe335", "estatus": "no_show", "advertencias": []}
+POST /citas/4b465bc8-9ce8-46d1-b57a-f6aacf9fe335/no-show -> 409  {"codigo": "transicion_de_estatus_invalida", "mensaje": "No se puede 'marcar_no_show' una cita en estatus 'no_show'"}
+GET /consultas/historial-no-shows/EXP-000003 -> 200  {"expediente": "EXP-000003", "paciente": "Paciente Tres", "total": 1, "fechas": ["2026-11-04T12:00:00"], "alerta": null}
+
+=== 9. El médico cancela su jornada: afectados y reagendado (CU-03, US-11)
+PUT /demo/reloj -> 200  {"ahora": "2026-11-04T08:00:00"}
+POST /citas -> 201  {"cita_id": "5e5cf5ce-93de-4138-a68e-2f38c6d15bfa", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /citas -> 201  {"cita_id": "f74abed7-5eb9-476c-ab98-5ebf053aa161", "estatus": "agendada", "autorizacion": null, "advertencias": []}
+POST /jornadas/cancelar -> 200  [{"cita_id": "f74abed7-5eb9-476c-ab98-5ebf053aa161", "expediente": "EXP-000002", "hora_original": "2026-11-04T13:00:00", "estatus": "afectada"}, {"cita_id": "5e5cf5ce-93de-4138-a68e-2f38c6d15bfa", "expediente": "EXP-000001", "hora
+GET /consultas/citas-afectadas -> 200  [{"cita_id": "f74abed7-5eb9-476c-ab98-5ebf053aa161", "expediente": "EXP-000002", "paciente": "Paciente Demo Dos", "telefono": "8187654321", "correo": "demo2@example.com", "hora_original": "2026-11-04T13:00:00", "estado_reagendado"
+PUT /demo/reloj -> 200  {"ahora": "2026-11-04T08:20:00"}
+POST /citas/5e5cf5ce-93de-4138-a68e-2f38c6d15bfa/reagendar -> 201  {"cita_origen_id": "5e5cf5ce-93de-4138-a68e-2f38c6d15bfa", "cita_nueva_id": "10e85937-7511-491e-a57b-5987702afa9e", "estatus": "agendada"}
+
+=== 10. Permisos: solo recepción agenda (P3)
+POST /citas -> 403  {"codigo": "permiso_denegado", "mensaje": "El rol 'administrativo' no puede realizar esta operación"}
+
+=== 11. Reporte consolidado, con tiempo de reagendado (US-15, US-24)
+GET /consultas/reporte -> 200  {"desde": "2026-11-04", "hasta": "2026-11-05", "filas": [{"sucursal_id": "CENTRO", "medico_id": "MED-001", "medico": "Dra. Ana Treviño", "agendadas": 3, "atendidas": 1, "no_shows": 0, "canceladas": 0, "ocupacion_pct": 10.0}, {"suc
+PUT /demo/reloj -> 200  {"ahora": "2026-11-03T17:24:00"}
+
+Demo completa.

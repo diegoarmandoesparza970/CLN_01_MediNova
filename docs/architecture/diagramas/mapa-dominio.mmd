@@ -1,0 +1,33 @@
+flowchart TB
+  subgraph AG1["Aggregate raíz AgendaMedica (médico + fecha, versión)"]
+    direction TB
+    J["Jornada (por sucursal)"]
+    C["Cita (State Machine)"]
+    VO1["VO: FranjaHoraria, Tolerancia,<br/>Autorizacion, Confirmacion,<br/>CierreDeConsulta, MotivoDeCambio"]
+  end
+  subgraph AG2["Aggregate Paciente"]
+    P["Paciente (expediente único)"]
+    VO2["VO: Contacto, NumeroDeExpediente"]
+  end
+  subgraph AG3["RegistroDeAuditoria (solo se agrega)"]
+    R["usuario, fecha, hora, motivo"]
+  end
+  subgraph CAT["Catálogos (sin Aggregate propio)"]
+    M["Medico<br/>LimiteDeSobrecupo"]
+    A["Aseguradora"]
+    S["Sucursal / Especialidad"]
+  end
+  subgraph SVC["Domain Services y Specifications"]
+    RE["Reagendador"]
+    PO["PoliticaDeNoShow<br/>PoliticaDeAutorizacion"]
+    SP["Specifications<br/>HorarioLibre · SobrecupoDisponible<br/>FranjaDentroDeJornadaVigente<br/>PacienteSinCitaSolapada · HoraYaPaso"]
+  end
+  AG1 -->|"publica Domain Events"| EV["CitaAgendada · CitaCancelada · CitaModificada<br/>LlegadaRegistrada · CitaMarcadaComoNoShow<br/>CitaAfectadaPorJornada · CitaReagendada ..."]
+  EV -->|"antes del commit"| AG3
+  EV -->|"después del commit"| N["Notificador (canal de origen)"]
+  C -.->|"expediente"| P
+  C -.->|"medico_id"| M
+  C -.->|"aseguradora_id"| A
+  RE -->|"opera sobre dos agendas"| AG1
+  SP -->|"componen reglas de"| AG1
+  PO -.-> C

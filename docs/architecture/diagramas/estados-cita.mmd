@@ -1,0 +1,25 @@
+stateDiagram-v2
+    direction LR
+    [*] --> agendada: sin autorización requerida
+    [*] --> pendiente_autorizacion: aseguradora exige autorización
+    pendiente_autorizacion --> agendada: registrar_autorizacion
+    pendiente_autorizacion --> agendada: pagar_como_particular
+    pendiente_autorizacion --> no_show: marcar_no_show
+    pendiente_autorizacion --> cancelada: cancelar
+    pendiente_autorizacion --> afectada: afectar_por_jornada
+    agendada --> presente: registrar_llegada
+    agendada --> no_atendida_por_retraso: marcar_no_atendida_por_retraso
+    agendada --> no_show: marcar_no_show
+    agendada --> cancelada: cancelar
+    agendada --> afectada: afectar_por_jornada
+    presente --> atendida: cerrar_consulta
+    presente --> no_atendida_por_retraso: marcar_no_atendida_por_retraso
+    presente --> cancelada: cancelar
+    afectada --> reagendada: reagendar
+    afectada --> cancelada: cancelar
+    no_atendida_por_retraso --> reagendada: reagendar
+    no_atendida_por_retraso --> cancelada: cancelar
+    atendida --> [*]
+    cancelada --> [*]
+    no_show --> [*]
+    reagendada --> [*]

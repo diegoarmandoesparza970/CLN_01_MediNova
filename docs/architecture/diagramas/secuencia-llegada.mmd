@@ -1,0 +1,27 @@
+sequenceDiagram
+  actor R as Recepcionista
+  participant S as AtencionService
+  participant K as Reloj
+  participant A as AgendaMedica
+  participant T as Tolerancia (VO)
+  participant M as MaquinaDeEstadosDeCita
+  participant U as UnitOfWorkSql
+  R->>S: registrar_llegada(cita, [hora, teléfono, aseguradora])
+  S->>K: ahora() (o la hora indicada)
+  S->>U: obtener_por_cita()
+  S->>A: registrar_llegada(cita, ahora, tolerancia)
+  A->>T: evaluar(programada, llegada)
+  alt a tiempo o 1 a 15 min
+    A->>M: REGISTRAR_LLEGADA
+    M-->>A: PRESENTE
+    A-->>S: a_tiempo / consultar_medico (alerta a recepción)
+  else más de 15 min
+    A->>M: MARCAR_NO_ATENDIDA_POR_RETRASO
+    M-->>A: NO_ATENDIDA_POR_RETRASO
+    A-->>S: no_atendida_por_retraso (se puede reagendar)
+  end
+  opt US-22: teléfono o aseguradora confirmados
+    S->>U: actualizar paciente
+  end
+  S->>U: guardar(agenda) + confirmar()
+  S-->>R: ResultadoDeLlegadaDto
