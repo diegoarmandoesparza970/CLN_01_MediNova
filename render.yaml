@@ -8,7 +8,6 @@ services:
     name: medinova-api
     runtime: docker
     dockerfilePath: ./Dockerfile
-    dockerTarget: app
     plan: free
     healthCheckPath: /health
     autoDeploy: false          # el despliegue lo dispara el job "deploy" de GitHub Actions
