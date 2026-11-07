@@ -6,7 +6,7 @@ Caso asignado: **MediNova**, clínica con 3 sucursales y ~35 médicos (la misma 
 | | |
 |---|---|
 | Repositorio | https://github.com/diegoarmandoesparza970/CLN_01_MediNova |
-| Sistema desplegado (Swagger UI) | `https://<COMPLETAR-URL-DE-RENDER>.onrender.com/docs` ← pegar aquí la URL tras desplegar (ver «Despliegue») |
+| Sistema desplegado (Swagger UI) | https://medinova-api-5z3w.onrender.com/docs |
 | Integrantes | Diego Armando Esparza Flores (1908457) · Cristopher Led Juarez Luna (2019069) · José Ángel Leal Sifuentes (2025292) |
 
 ## Qué hace
